@@ -1,0 +1,20 @@
+Python client-side module.
+==========================
+    - reproducing python-bugzilla functionality adapted to bugspad
+
+0. Establish library ideals
+    - fast
+    - light
+    - clear, easy to implement
+    - Keep things clean from the very beginning
+    - http://www.artima.com/weblogs/viewpost.jsp?thread=331531
+
+1. Describe python-bugzilla structure
+
+2. Establish own structure
+
+3. Write functions
+    - Start with basic API functionalities
+
+
+
