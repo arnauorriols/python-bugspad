@@ -6,12 +6,12 @@ from requests import post
 
 class Bug (object):
     
-    def __init__(self, url, user, pwd, component_id, bug_id = None):
+    def __init__(self, base_url, user, pwd, component_id, bug_id = None):
         if bug_id:
             self.bug_id = bug_id
 
         self.component_id = component_id
-        self.url = url
+        self.url = base_url
         self.user = user
         self.pwd = pwd
 
@@ -45,12 +45,14 @@ class Bug (object):
 
         """
 
+        complete_url = "%s/comment/" % self.url
+
         json_data = {'user' : self.usr,
                      'password' : self.pwd,
                      'desc' : comment,
                      'bug_id' : self.bug_id} # Doesn't it require component_id?
 
-        request = post(self.url, dumps(json_data))
+        request = post(complete_url, dumps(json_data))
 
         return request.text # ??
 
@@ -65,13 +67,15 @@ class Bug (object):
 
         """
 
+        complete_url = "%s/bug/" % self.url
+
         json_data = {'user' : self.usr,
                      'password' : self.pwd,
                      'component_id' : self.component_id,
                      'summary' : summary,
                      'description' : description}
 
-        request = post(self.url, dumps(json_data))
+        request = post(complete_url, dumps(json_data))
 
         return request.text # ??
 
@@ -88,13 +92,15 @@ class Bug (object):
 
         """
 
+        complete_url = "%s/updatebug/" % self.url
+
         json_data = {'user' : self.usr,
                      'password' : self.pwd,
                      'bug_id' : self_bug_id} # Doesn't it require component_id?
 
         json_data.update(kwargs)
 
-        request = post(self.url, dumps(json_data))
+        request = post(complete_url, dumps(json_data))
 
         return request.text # ??
 
@@ -102,11 +108,15 @@ class Bug (object):
 
     def get_component(self, product_id):
         """
+        Fetches a component using it's id.
+
         Returns component id, name and description from the given id.
 
         """
 
+        complete_url = "%s/components/" % self.url
+
         json_data = {'product_id' : product_id}
-        request = post(url, dumps(json_data))
+        request = post(complete_url, dumps(json_data))
 
         return request.text # ??
