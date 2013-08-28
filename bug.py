@@ -15,7 +15,7 @@ class Bug (object):
         self.user = user
         self.pwd = pwd
 
-    def retrieves_bug(self, funct):
+    def retrieves_bug(funct):
         """
         Decorator for those functions which fetch or modifies existing bugs,
         thus requiring a bug_id. If Bug class is instantiated without bug_id
@@ -24,12 +24,15 @@ class Bug (object):
         """
 
         def inner(self, *args, **kwargs):
-            if not self.bug_id:
+            try:
+                self.bug_id
+
+            except AttributeError:
                 # TODO: Raise a proper exception
                 raise NameError ("Not callable without bug_id")
 
             else:
-                return funct(*args, **kwargs)
+                return funct(self, *args, **kwargs)
 
         return inner
 
@@ -47,7 +50,7 @@ class Bug (object):
 
         complete_url = "%s/comment/" % self.url
 
-        json_data = {'user' : self.usr,
+        json_data = {'user' : self.user,
                      'password' : self.pwd,
                      'desc' : comment,
                      'bug_id' : self.bug_id} # Doesn't it require component_id?
@@ -69,7 +72,7 @@ class Bug (object):
 
         complete_url = "%s/bug/" % self.url
 
-        json_data = {'user' : self.usr,
+        json_data = {'user' : self.user,
                      'password' : self.pwd,
                      'component_id' : self.component_id,
                      'summary' : summary,
@@ -87,20 +90,22 @@ class Bug (object):
         Updates the bug given in the Bug constructor using 
         the given heyword arguments.
 
-        Returns the server response, wether succesful ('200') or
-        an error message.
+        Returns the server response, wether empty string if succesful or message.
 
         """
 
         complete_url = "%s/updatebug/" % self.url
 
-        json_data = {'user' : self.usr,
+        json_data = {'user' : self.user,
                      'password' : self.pwd,
-                     'bug_id' : self_bug_id} # Doesn't it require component_id?
+                     'bug_id' : self.bug_id} # Doesn't it require component_id?
 
         json_data.update(kwargs)
 
         request = post(complete_url, dumps(json_data))
+
+        ## FIXME: Should return info about db query succes.
+        #  Right now only authentication failure is handled
 
         return request.text # ??
 
