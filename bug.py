@@ -106,6 +106,8 @@ class Bug (object):
 
         ## FIXME: Should return info about db query succes.
         #  Right now only authentication failure is handled
+        #  It also returns 'Wrong input' when there isn't 'status' key.
+        #  Needs explanation, can't understand why. 
 
         return request.text # ??
 

@@ -27,10 +27,10 @@ class BugTest (unittest.TestCase):
                                   self.pwd, 
                                   1, 
                                   random.randint(1, 20))
-        
 
 
-    
+
+
     def test_add_comment_without_id_raises_Exception(self):
 
         self.assertRaises(NameError, 
@@ -40,14 +40,14 @@ class BugTest (unittest.TestCase):
 
 
     def test_add_comment_wrong_auth_returns_AUTH_ERROR(self):
-        
+
         response = self.wrong_auth_bug.add_comment("this is a comment")
         self.assertEqual(str(response), self.AUTH_ERROR)
 
 
-    
+
     def test_add_comment_returns_comment_id(self):
-        
+
         try:
             int(self.with_id_bug.add_comment("this is a comment"))
 
@@ -69,7 +69,7 @@ class BugTest (unittest.TestCase):
         response = self.wrong_auth_bug.update_bug(status = "new", 
                                                   hardware = "x86_64")
 
-        self.assertEqual(str(response), self.AUTH_ERROR)
+        self.assertEqual(response, self.AUTH_ERROR)
 
 
 
@@ -79,6 +79,14 @@ class BugTest (unittest.TestCase):
 
         self.assertEqual(response, '')
 
+
+
+    @unittest.expectedFailure
+    def test_update_bug_wrong_kwargs_returns_error_msg(self):
+
+        response = self.with_id_bug.update_bug(status = "dummy status", wrong_kwarg = "dummy")
+
+        self.assertNotEqual(response, '')
 
 
 if __name__ == "__main__":
