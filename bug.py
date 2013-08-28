@@ -70,6 +70,7 @@ class Bug (object):
 
         """
 
+
         complete_url = "%s/bug/" % self.url
 
         json_data = {'user' : self.user,
@@ -79,6 +80,18 @@ class Bug (object):
                      'description' : description}
 
         request = post(complete_url, dumps(json_data))
+
+
+        """
+        **possibility:**
+
+            return Bug(self.url, 
+                       self.user, 
+                       self.pwd, 
+                       self.component_id, 
+                       int(request.text))
+
+        """
 
         return request.text # ??
 
