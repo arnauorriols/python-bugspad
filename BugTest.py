@@ -1,5 +1,5 @@
 import unittest
-from bug import Bug
+from bugspad import Bug
 import random
 
 
