@@ -11,6 +11,7 @@ class BugTest (unittest.TestCase):
 
     def setUp(self):
         self.AUTH_ERROR = "\"Authentication failure.\"\n"
+        self.SUCCESS = "\"Success\"\n"
         self.url = "http://127.0.0.1:9998"
         self.usr = "arnauorriolsmiro@gmail.com"
         self.pwd = "asdf"
@@ -73,20 +74,20 @@ class BugTest (unittest.TestCase):
 
 
 
-    def test_update_bug_returns_empty_response(self):
+    def test_update_bug_returns_succes_response(self):
         response = self.with_id_bug.update_bug(status = "new", 
                                                hardware = "x86_64")
 
-        self.assertEqual(response, '')
+        self.assertEqual(response, self.SUCCESS)
 
 
 
-    @unittest.expectedFailure
+    #@unittest.expectedFailure
     def test_update_bug_wrong_kwargs_returns_error_msg(self):
 
-        response = self.with_id_bug.update_bug(status = "dummy status", wrong_kwarg = "dummy")
+        response = self.with_id_bug.update_bug(wrong_kwarg = "dummy")
 
-        self.assertNotEqual(response, '')
+        self.assertNotEqual(response, self.SUCCESS)
 
 
 if __name__ == "__main__":
