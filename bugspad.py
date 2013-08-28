@@ -7,9 +7,7 @@ from requests import post
 class Bug (object):
     
     def __init__(self, base_url, user, pwd, component_id, bug_id = None):
-        if bug_id:
-            self.bug_id = bug_id
-
+        self.bug_id = bug_id
         self.component_id = component_id
         self.url = base_url
         self.user = user
@@ -24,15 +22,10 @@ class Bug (object):
         """
 
         def inner(self, *args, **kwargs):
-            try:
-                self.bug_id
-
-            except AttributeError:
-                # TODO: Raise a proper exception
-                raise NameError ("Not callable without bug_id")
-
-            else:
+            if self.bug_id:
                 return funct(self, *args, **kwargs)
+            else:
+                raise NameError ("Not callable without bug_id")
 
         return inner
 
