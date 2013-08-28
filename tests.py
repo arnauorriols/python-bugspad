@@ -12,6 +12,7 @@ class BugTest (unittest.TestCase):
     def setUp(self):
         self.AUTH_ERROR = "\"Authentication failure.\"\n"
         self.SUCCESS = "\"Success\"\n"
+        self.WRONG_KWARGS = "Wrong kwargs"
         self.url = "http://127.0.0.1:9998"
         self.usr = "arnauorriolsmiro@gmail.com"
         self.pwd = "asdf"
@@ -74,7 +75,7 @@ class BugTest (unittest.TestCase):
 
 
 
-    def test_update_bug_returns_succes_response(self):
+    def test_update_bug_returns_success_response(self):
         response = self.with_id_bug.update_bug(status = "new", 
                                                hardware = "x86_64")
 
@@ -82,12 +83,34 @@ class BugTest (unittest.TestCase):
 
 
 
-    #@unittest.expectedFailure
-    def test_update_bug_wrong_kwargs_returns_error_msg(self):
+    def test_update_bug_wrong_kwargs_returns_WRONG_KWARGS(self):
 
         response = self.with_id_bug.update_bug(wrong_kwarg = "dummy")
 
         self.assertNotEqual(response, self.SUCCESS)
+
+
+
+    def test_new_bug_returns_bug_id(self):
+
+        try:
+            int(self.with_id_bug.new_bug("This is a summary",
+                                         "I had a bug...!",
+                                         hardware = "x86_64"))
+
+        except ValueError:
+            self.fail("Server Return is not valid comment id")
+
+
+
+    def test_new_bug_wrong_kwargs_returns_WRONG_KWARGS(self):
+
+        response = self.with_id_bug.new_bug("This is a summary", 
+                                            "I had a bug...!",
+                                            wrong_kwarg = "dummy")
+
+        self.assertEqual(response, self.WRONG_KWARGS)
+
 
 
 if __name__ == "__main__":

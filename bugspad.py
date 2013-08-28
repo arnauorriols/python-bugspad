@@ -5,13 +5,25 @@ from requests import post
 
 
 class Bug (object):
-    
+
+    """ This works as **kwargs filter """
+    OPTIONAL_KWARGS = ('priority',
+                       'severity',
+                       'status',
+                       'hardware',
+                       'whiteboard',
+                       'fixedinver',
+                       'version')
+
+
     def __init__(self, base_url, user, pwd, component_id, bug_id = None):
         self.bug_id = bug_id
         self.component_id = component_id
         self.url = base_url
         self.user = user
         self.pwd = pwd
+
+
 
     def retrieves_bug(funct):
         """
@@ -26,6 +38,32 @@ class Bug (object):
                 return funct(self, *args, **kwargs)
             else:
                 raise NameError ("Not callable without bug_id")
+
+        return inner
+
+
+
+    def optional_args_filter(funct):
+        """
+        Decorator that filters optional keyword arguments, accepting only
+        this keywords:
+            - severity
+            - priority
+            - status
+            - version
+            - hardware
+            - whiteboard
+            - fixedinver
+
+        """
+
+        def inner(self, *args, **kwargs):
+            for arg in kwargs.keys():
+                if arg not in self.OPTIONAL_KWARGS:
+                    # del kwargs[arg]
+                    return "Wrong kwargs"
+
+            return funct(self, *args, **kwargs)
 
         return inner
 
@@ -54,15 +92,26 @@ class Bug (object):
 
 
 
-    def new_bug (self, summary, description):
+    @optional_args_filter
+    def new_bug (self, summary, description, **kwargs):
         """
         Files a new bug for the component given in the class constructor.
+
+        params: 
+            - Summary, description are needed
+            - kwargs are optional, and include:
+                * priority
+                * severity
+                * status
+                * version
+                * hardware
+                * witheboard
+                * fixedinver
 
         Returns server response, wether the new bug's id if succesful, or
         an error message.
 
         """
-
 
         complete_url = "%s/bug/" % self.url
 
@@ -71,6 +120,8 @@ class Bug (object):
                      'component_id' : self.component_id,
                      'summary' : summary,
                      'description' : description}
+
+        json_data.update(kwargs) # Adds optional args if any
 
         request = post(complete_url, dumps(json_data))
 
@@ -90,6 +141,7 @@ class Bug (object):
 
 
 
+    @optional_args_filter
     @retrieves_bug
     def update_bug(self, **kwargs):
         """
@@ -109,11 +161,6 @@ class Bug (object):
         json_data.update(kwargs)
 
         request = post(complete_url, dumps(json_data))
-
-        ## FIXME: Should return info about db query succes.
-        #  Right now only authentication failure is handled
-        #  It also returns 'Wrong input' when there isn't 'status' key.
-        #  Needs explanation, can't understand why. 
 
         return request.text # ??
 
