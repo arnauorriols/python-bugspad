@@ -13,7 +13,9 @@ class Bug (object):
                        'hardware',
                        'whiteboard',
                        'fixedinver',
-                       'version')
+                       'version',
+                       'component_id',
+                       'subcomponent_id')
 
 
     def __init__(self, base_url, user, pwd, component_id, bug_id = None):
@@ -54,6 +56,7 @@ class Bug (object):
             - hardware
             - whiteboard
             - fixedinver
+            - subcomponent_id
 
         """
 
@@ -84,7 +87,7 @@ class Bug (object):
         json_data = {'user' : self.user,
                      'password' : self.pwd,
                      'desc' : comment,
-                     'bug_id' : self.bug_id} # Doesn't it require component_id?
+                     'bug_id' : self.bug_id} 
 
         request = post(complete_url, dumps(json_data))
 
@@ -107,6 +110,7 @@ class Bug (object):
                 * hardware
                 * witheboard
                 * fixedinver
+                * subcomponent_id
 
         Returns server response, wether the new bug's id if succesful, or
         an error message.
@@ -156,7 +160,7 @@ class Bug (object):
 
         json_data = {'user' : self.user,
                      'password' : self.pwd,
-                     'bug_id' : self.bug_id} # Doesn't it require component_id?
+                     'bug_id' : self.bug_id} 
 
         json_data.update(kwargs)
 

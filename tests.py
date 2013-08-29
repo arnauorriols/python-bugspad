@@ -17,18 +17,18 @@ class BugTest (unittest.TestCase):
         self.usr = "arnauorriolsmiro@gmail.com"
         self.pwd = "asdf"
 
-        self.no_id_bug = Bug(self.url, self.usr, self.pwd, 1)
+        self.no_id_bug = Bug(self.url, self.usr, self.pwd, 47062)
         self.with_id_bug = Bug(self.url, 
                                self.usr, 
                                self.pwd, 
-                               1,
-                               random.randint(1, 20))
+                               47062,
+                               random.randint(22567, 22587))
 
         self.wrong_auth_bug = Bug(self.url, 
                                   "wrongusr", 
                                   self.pwd, 
-                                  1, 
-                                  random.randint(1, 20))
+                                  47062, 
+                                  random.randint(22567, 22587))
 
 
 
@@ -77,9 +77,15 @@ class BugTest (unittest.TestCase):
 
     def test_update_bug_returns_success_response(self):
         response = self.with_id_bug.update_bug(status = "new", 
-                                               hardware = "x86_64")
+                                               hardware = "x86_64",
+                                               priority = "high",
+                                               severity = "high",
+                                               whiteboard = "Some text",
+                                               fixedinver = "18",
+                                               version = "20",
+                                               component_id = 55555)
 
-        self.assertEqual(response, self.SUCCESS)
+        self.assertEqual(response, self.SUCCESS) # not really useful
 
 
 
@@ -96,7 +102,14 @@ class BugTest (unittest.TestCase):
         try:
             int(self.with_id_bug.new_bug("This is a summary",
                                          "I had a bug...!",
-                                         hardware = "x86_64"))
+                                         hardware = "x86_64",
+                                         priority = "high",
+                                         severity = "high",
+                                         whiteboard = "Some text",
+                                         fixedinver = "18",
+                                         version = "20",
+                                         component_id = 55555
+                                         ))
 
         except ValueError:
             self.fail("Server Return is not valid comment id")
