@@ -1,12 +1,12 @@
 # Function temporal container waitting to be organized
 
-from json import dumps
+from json import dumps, loads
 from requests import post, get
 
 
 class Bug (object):
 
-    """ This works as **kwargs filter """
+    # This works as **kwargs filter
     OPTIONAL_KWARGS = ('priority',
                        'severity',
                        'status',
@@ -209,3 +209,27 @@ class Bug (object):
         request = post(complete_url, dumps(json_data))
 
         return request.json
+
+
+
+    def get_latest_created_bugs(self):
+        """
+        Fetches the 10 latest created bugs' id. 
+
+        Returns a list containing these 10 bugs, as a dictionary containing
+        bug's id, status and summary. This info can be used to create other 
+        Bug instances with proper bug id.
+
+        """
+
+        complete_url = "%s/latestcreated/" % self.url
+        request = get(complete_url)
+
+        # Server's response is not well formed json data, needs to be
+        # recursively parsed.
+        # FIXME: Server's returns a list of string, not a list of json objects
+        parsed_request = []
+        for bug_dict in request.json:
+            parsed_request.append(loads(bug_dict))
+
+        return parsed_request

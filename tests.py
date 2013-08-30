@@ -77,7 +77,7 @@ class BugTest (unittest.TestCase):
 
 
     def test_update_bug_returns_success_response(self):
-        response = self.with_id_bug.update_bug(status = "new", 
+        response = self.with_id_bug.update_bug(status = "new",
                                                hardware = "x86_64",
                                                priority = "high",
                                                severity = "high",
@@ -165,6 +165,25 @@ class BugTest (unittest.TestCase):
                                                   1)
 
         self.assertEqual(response['id'], self.WRONG_PRODUCT)
+
+
+
+    def test_get_latest_created_bugs_returns_latest_bugs_list(self):
+
+        response = self.with_id_bug.get_latest_created_bugs()
+
+        self.assertIs(type(response), list)
+        self.assertEqual(len(response), 10)
+        for bug in response:
+            self.assertEqual(len(bug.keys()), 3)
+            self.assertTrue('id' in bug)
+            self.assertTrue('status' in bug)
+            self.assertTrue('summary' in bug)
+
+            # Range inversed (start, stop(not included), step)
+            self.assertEqual([bug['id'] for bug in response],
+                         range(response[0]['id'], (response[-1]['id']-1), -1))
+
 
 
 
