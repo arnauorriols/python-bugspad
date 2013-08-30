@@ -1,7 +1,7 @@
 # Function temporal container waitting to be organized
 
 from json import dumps
-from requests import post
+from requests import post, get
 
 
 class Bug (object):
@@ -16,6 +16,7 @@ class Bug (object):
                        'version',
                        'component_id',
                        'subcomponent_id')
+
 
 
     def __init__(self, base_url, user, pwd, component_id, bug_id = None):
@@ -170,17 +171,16 @@ class Bug (object):
 
 
 
-    def get_component(self, product_id):
+    def get_components_list(self, product_id):
         """
-        Fetches a component using it's id.
+        Fetches a components list from a product's id.
 
-        Returns component id, name and description from the given id.
+        Returns components list, containing  id, name and description from the given id.
 
         """
 
-        complete_url = "%s/components/" % self.url
+        complete_url = "%s/components/%s/" % (self.url, product_id)
+        request = get(complete_url) 
 
-        json_data = {'product_id' : product_id}
-        request = post(complete_url, dumps(json_data))
-
-        return request.text # ??
+        json_response = request.json
+        return request.json 

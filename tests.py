@@ -126,6 +126,16 @@ class BugTest (unittest.TestCase):
 
 
 
+    def test_get_components_list_returns_components_dict(self):
+
+        response = self.with_id_bug.get_components_list(2)
+
+        self.assertIs(type(response), dict)
+        self.assertNotEqual(len(response), 0)
+        for component in response.iteritems():
+            self.assertEqual(component[0], component[1][1])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity = 2)
 
