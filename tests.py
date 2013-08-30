@@ -13,6 +13,7 @@ class BugTest (unittest.TestCase):
         self.AUTH_ERROR = "\"Authentication failure.\"\n"
         self.SUCCESS = "\"Success\"\n"
         self.WRONG_KWARGS = "Wrong kwargs"
+        self.WRONG_PRODUCT = "No such product."
         self.url = "http://127.0.0.1:9998"
         self.usr = "arnauorriolsmiro@gmail.com"
         self.pwd = "asdf"
@@ -126,6 +127,7 @@ class BugTest (unittest.TestCase):
 
 
 
+    @unittest.skip("Too slow, comment this line to test this function")
     def test_get_components_list_returns_components_dict(self):
 
         response = self.with_id_bug.get_components_list(2)
@@ -134,6 +136,36 @@ class BugTest (unittest.TestCase):
         self.assertNotEqual(len(response), 0)
         for component in response.iteritems():
             self.assertEqual(component[0], component[1][1])
+
+
+    def test_add_component_returns_component_id(self):
+        
+        response = self.with_id_bug.add_component('new_component', 
+                                                  'This is an awesome new ' \
+                                                  'useless component',
+                                                  2)
+
+        try:
+            int(response["id"])
+
+        except ValueError:
+            self.fail("Server return is not a valid id value")
+
+        self.assertEqual('new_component', response['name'])
+        self.assertEqual('This is an awesome new useless component',
+                         response['description'])
+
+
+
+    def test_add_component_wrong_product_id_returns_WRONG_PRODUCT(self):
+
+        response = self.with_id_bug.add_component('new_component', 
+                                                  'This is an awesome new ' \
+                                                  'useless component',
+                                                  1)
+
+        self.assertEqual(response['id'], self.WRONG_PRODUCT)
+
 
 
 if __name__ == "__main__":

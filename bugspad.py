@@ -183,4 +183,29 @@ class Bug (object):
         request = get(complete_url) 
 
         json_response = request.json
-        return request.json 
+        return request.json
+
+
+
+    def add_component(self, name, description, product_id):
+        """
+        Adds new component to the given product_id product. Requires 
+        the name and description of the product. owner is thought to be the
+        bug's user self. 
+
+        Returns server response: if success, returns the new component's id, 
+        Error message 'No such product' otherwise. 
+
+        """
+
+        complete_url = "%s/component/" % self.url
+        json_data = {'user' : self.user,
+                     'password' : self.pwd,
+                     'owner' : self.user,
+                     'name' : name,
+                     'description' : description,
+                     'product_id' : product_id}
+
+        request = post(complete_url, dumps(json_data))
+
+        return request.json
