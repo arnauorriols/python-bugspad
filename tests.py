@@ -18,17 +18,15 @@ class BugTest (unittest.TestCase):
         self.usr = "arnauorriolsmiro@gmail.com"
         self.pwd = "asdf"
 
-        self.no_id_bug = Bug(self.url, self.usr, self.pwd, 47062)
-        self.with_id_bug = Bug(self.url, 
-                               self.usr, 
-                               self.pwd, 
-                               47062,
-                               random.randint(22567, 22587))
+        self.no_id_bug = Bug(self.url, self.usr, self.pwd)
+        self.with_id_bug = Bug(self.url,
+                               self.usr,
+                               self.pwd,
+                               22567)
 
-        self.wrong_auth_bug = Bug(self.url, 
-                                  "wrongusr", 
-                                  self.pwd, 
-                                  47062, 
+        self.wrong_auth_bug = Bug(self.url,
+                                  "wrongusr",
+                                  self.pwd,
                                   random.randint(22567, 22587))
 
 
@@ -121,6 +119,7 @@ class BugTest (unittest.TestCase):
 
         response = self.with_id_bug.new_bug("This is a summary", 
                                             "I had a bug...!",
+                                            47062,
                                             wrong_kwarg = "dummy")
 
         self.assertEqual(response, self.WRONG_KWARGS)

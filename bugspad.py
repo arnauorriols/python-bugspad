@@ -5,7 +5,17 @@ from requests import post, get
 
 
 class Bug (object):
+    """
+    Object that manages all bug manipulation. Requires authentication.
 
+    There are 3 forms in which this object can be instantiated. 
+        - Without either bug and component's ids.
+        (- With components id: Represents a component, thus being able to create
+        bug, for example.) --> deprecated?
+        - With bug id: Represents a bug, being able to update it, comment it...
+
+    """
+    
     # This works as **kwargs filter
     OPTIONAL_KWARGS = ('priority',
                        'severity',
@@ -19,16 +29,15 @@ class Bug (object):
 
 
 
-    def __init__(self, base_url, user, pwd, component_id, bug_id = None):
+    def __init__(self, base_url, user, pwd, bug_id = None):
         self.bug_id = bug_id
-        self.component_id = component_id
         self.url = base_url
         self.user = user
         self.pwd = pwd
 
 
 
-    def retrieves_bug(funct):
+    def requires_bug_id(funct):
         """
         Decorator for those functions which fetch or modifies existing bugs,
         thus requiring a bug_id. If Bug class is instantiated without bug_id
@@ -46,6 +55,24 @@ class Bug (object):
 
 
 
+    #def requires_component_id(funct):
+    #    """
+    #    Decorator for those functions which require a component id, mainly
+    #    those dealing with new bugs or new subcomponents.
+    #    If Bug class is instantiated without component_id
+    #    the calling of these functions will raise an exception.
+    #
+    #    """
+    #
+    #    def inner(self, *args, **kwargs):
+    #        if self.component_id:
+    #            return funct(self, *args, **kwargs)
+    #        else:
+    #            raise NameError ("Not callable without component_id")
+    #
+    #    return inner
+
+
     def optional_args_filter(funct):
         """
         Decorator that filters optional keyword arguments, accepting only
@@ -57,6 +84,7 @@ class Bug (object):
             - hardware
             - whiteboard
             - fixedinver
+            - component_id
             - subcomponent_id
 
         """
@@ -73,7 +101,7 @@ class Bug (object):
 
 
 
-    @retrieves_bug
+    @requires_bug_id
     def add_comment (self, comment):
         """
         Adds a new comment for the given bug in the class' constructor.
@@ -97,12 +125,12 @@ class Bug (object):
 
 
     @optional_args_filter
-    def new_bug (self, summary, description, **kwargs):
+    def new_bug (self, summary, description, component_id, **kwargs):
         """
         Files a new bug for the component given in the class constructor.
 
         params: 
-            - Summary, description are needed
+            - Summary, description and component_id are needed
             - kwargs are optional, and include:
                 * priority
                 * severity
@@ -122,7 +150,7 @@ class Bug (object):
 
         json_data = {'user' : self.user,
                      'password' : self.pwd,
-                     'component_id' : self.component_id,
+                     'component_id' : component_id,
                      'summary' : summary,
                      'description' : description}
 
@@ -137,7 +165,6 @@ class Bug (object):
             return Bug(self.url, 
                        self.user, 
                        self.pwd, 
-                       self.component_id, 
                        int(request.text))
 
         """
@@ -147,7 +174,7 @@ class Bug (object):
 
 
     @optional_args_filter
-    @retrieves_bug
+    @requires_bug_id
     def update_bug(self, **kwargs):
         """
         Updates the bug given in the Bug constructor using 
@@ -175,7 +202,9 @@ class Bug (object):
         """
         Fetches a components list from a product's id.
 
-        Returns components list, containing  id, name and description from the given id.
+        Returns the components of the given product in a dict, where keys are
+        component's name and values are a list containing id, name and
+        description of each key.
 
         """
 
