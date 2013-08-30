@@ -49,7 +49,7 @@ class Bug (object):
     def optional_args_filter(funct):
         """
         Decorator that filters optional keyword arguments, accepting only
-        this keywords:
+        these keywords:
             - severity
             - priority
             - status
