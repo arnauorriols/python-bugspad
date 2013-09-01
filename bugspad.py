@@ -299,3 +299,17 @@ class Bug (object):
         request = post(complete_url, dumps(json_data))
 
         return request.text
+
+
+
+    def get_releases(self):
+        """
+        Fetches the releases list, and returns a list with all releases name
+        as strings.
+
+        """
+
+        complete_url = "%s/releases/" % self.url
+        request = get(complete_url)
+
+        return request.json

@@ -209,6 +209,18 @@ class BugTest (unittest.TestCase):
 
         self.assertEqual(response, self.SUCCESS)
 
+
+
+    def test_get_releases_returns_releases_list(self):
+
+        response = self.with_id_bug.get_releases()
+
+        self.assertIs(type(response), list)
+        for release in response:
+            self.assertIsInstance(release, basestring)
+        
+
+
 if __name__ == "__main__":
     unittest.main(verbosity = 2)
 
