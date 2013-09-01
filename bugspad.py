@@ -258,7 +258,27 @@ class Bug (object):
         # recursively parsed.
         # FIXME: Server's returns a list of string, not a list of json objects
         parsed_request = []
-        for bug_dict in request.json:
-            parsed_request.append(loads(bug_dict))
+        for bug_string in request.json:
+            parsed_request.append(loads(bug_string))
+
+        return parsed_request
+
+
+
+    def get_latest_updated_bugs(self):
+        """
+        Fetches the 10 latest updated bugs' id.
+
+        Returns a list containing these 10 bugs, as a dictionary containing
+        bug's id, status and summary.
+
+        """
+
+        complete_url = "%s/latestupdated/" % self.url
+        request = get(complete_url)
+
+        parsed_request = []
+        for bug_string in request.json:
+            parsed_request.append(loads(bug_string))
 
         return parsed_request

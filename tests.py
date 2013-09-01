@@ -169,6 +169,8 @@ class BugTest (unittest.TestCase):
 
     def test_get_latest_created_bugs_returns_latest_bugs_list(self):
 
+        # NEEDS REVISION. THESE ASSERTIONS AREN'T NECESSARILY TRUE
+
         response = self.with_id_bug.get_latest_created_bugs()
 
         self.assertIs(type(response), list)
@@ -182,6 +184,23 @@ class BugTest (unittest.TestCase):
             # Range inversed (start, stop(not included), step)
             self.assertEqual([bug['id'] for bug in response],
                          range(response[0]['id'], (response[-1]['id']-1), -1))
+
+
+
+
+    def test_get_latest_updated_bugs_returns_latest_bugs_list(self):
+
+        # NEEDS REVISION, THESE ASSERTIONS AREN'T NECESSARILY TRUE
+        response = self.with_id_bug.get_latest_updated_bugs()
+
+        self.assertIs(type(response), list)
+        self.assertEqual(len(response), 10)
+        for bug in response:
+            self.assertEqual(len(bug.keys()), 3)
+            self.assertTrue('id' in bug)
+            self.assertTrue('status' in bug)
+            self.assertTrue('summary' in bug)
+
 
 
 
