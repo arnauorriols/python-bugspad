@@ -11,7 +11,7 @@ API FUNCTIONS LIST
 6. Get latest created bugs list (revise)
 7. Get latest updated bugs list (revise)
 8. Add release (revise)
-9. Get release (pending)
+9. Get release (revise)
 10. Add product (pending)
 11. Add bug_cc (pending)
 12. Remove bug_cc (pending)
