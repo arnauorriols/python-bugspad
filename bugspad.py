@@ -285,5 +285,17 @@ class Bug (object):
 
 
 
-    def add_release(self):
+    def add_release(self, release_name):
+        """
+        Adds release to database. Returns SUCCESS msg.
+        
+        """
 
+        complete_url = "%s/releases/" % self.url
+        json_data = {'user' : self.user,
+                     'password' : self.pwd,
+                     'name' : release_name}
+
+        request = post(complete_url, dumps(json_data))
+
+        return request.text

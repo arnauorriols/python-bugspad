@@ -74,7 +74,7 @@ class BugTest (unittest.TestCase):
 
 
 
-    def test_update_bug_returns_success_response(self):
+    def test_update_bug_returns_SUCCESS(self):
         response = self.with_id_bug.update_bug(status = "new",
                                                hardware = "x86_64",
                                                priority = "high",
@@ -203,7 +203,11 @@ class BugTest (unittest.TestCase):
 
 
 
+    def test_add_release_returns_SUCCESS(self):
 
+        response = self.with_id_bug.add_release('BP-2')
+
+        self.assertEqual(response, self.SUCCESS)
 
 if __name__ == "__main__":
     unittest.main(verbosity = 2)
