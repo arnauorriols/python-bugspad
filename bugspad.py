@@ -287,7 +287,8 @@ class Bug (object):
 
     def add_release(self, release_name):
         """
-        Adds release to database. Returns SUCCESS msg.
+        Adds release to database, of which the name is provided in
+        release_name parameter. Returns SUCCESS msg.
         
         """
 
@@ -311,5 +312,26 @@ class Bug (object):
 
         complete_url = "%s/releases/" % self.url
         request = get(complete_url)
+
+        return request.json
+
+
+
+    def add_product(self, product_name, product_description):
+        """
+        Adds new product to database, specifying name and description of it.
+
+        Returns a dictionary containing id, name and description of the new
+        added product.
+
+        """
+
+        complete_url = "%s/product/" % self.url
+        json_data = {'user' : self.user,
+                     'password' : self.pwd,
+                     'name' : product_name,
+                     'description' : product_description}
+
+        request = post(complete_url, dumps(json_data))
 
         return request.json

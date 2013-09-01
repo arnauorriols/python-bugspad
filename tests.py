@@ -137,7 +137,7 @@ class BugTest (unittest.TestCase):
             self.assertEqual(component[0], component[1][1])
 
 
-    def test_add_component_returns_component_id(self):
+    def test_add_component_returns_component_info_dict(self):
         
         response = self.with_id_bug.add_component('new_component', 
                                                   'This is an awesome new ' \
@@ -218,8 +218,29 @@ class BugTest (unittest.TestCase):
         self.assertIs(type(response), list)
         for release in response:
             self.assertIsInstance(release, basestring)
-        
 
+
+
+    def test_add_product_returns_product_info_dict(self):
+
+        response = self.with_id_bug.add_product("New product",
+                                                "This is going to blow " \
+                                                "your mind!")
+
+        try:
+            int(response["id"])
+
+        except ValueError:
+            self.fail("Server return is not a valid id value")
+
+        self.assertIs(type(response), dict)
+        self.assertEqual(len(response), 3)
+        self.assertTrue('id' in response)
+        self.assertTrue('name' in response)
+        self.assertTrue('description' in response)
+        self.assertEqual(response['name'], "New product")
+        self.assertEqual(response['description'], "This is going to blow " \
+                                                  "your mind!")
 
 if __name__ == "__main__":
     unittest.main(verbosity = 2)
