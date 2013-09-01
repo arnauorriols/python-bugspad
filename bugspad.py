@@ -8,7 +8,7 @@ class Bug (object):
     """
     Object that manages all bug manipulation. Requires authentication.
 
-    There are 3 forms in which this object can be instantiated. 
+    There are 2 forms in which this object can be instantiated. 
         - Without either bug and component's ids.
         (- With components id: Represents a component, thus being able to create
         bug, for example.) --> deprecated?
@@ -282,3 +282,8 @@ class Bug (object):
             parsed_request.append(loads(bug_string))
 
         return parsed_request
+
+
+
+    def add_release(self):
+
