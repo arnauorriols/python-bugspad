@@ -5,7 +5,7 @@ API FUNCTIONS LIST
 
 1. Create new component (revise)
 2. Get component list for a product (revise)
-3. Create new bug (REQUIRES UPDATE)
+3. Create new bug (revise)
 4. Update bug (revise)
 5. Add comment to a bug (revise)
 6. Get latest created bugs list (revise)
