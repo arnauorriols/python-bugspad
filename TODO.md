@@ -13,6 +13,8 @@ MANIFESTO
     - Keep things clean from the very beginning
     - http://www.artima.com/weblogs/viewpost.jsp?thread=331531
 
+TASKS
+-----
 
 ~~1. Write functions~~
     - ~~Start with basic API functionalities~~
