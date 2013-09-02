@@ -23,7 +23,7 @@ TASKS
 
 2. Organize code for easier readability
     - Group functions by functionality
-    - Comply strictly with PEP 8 style guidelines
+    - Comply strictly with PEP 8 and PEP 257 style guidelines
 
 3. Deepen into the test cases
     - Search for more assertions
@@ -42,3 +42,8 @@ TO-ASK
 - Add cc needs some kind of feedback, at least success or error messages
     - add_bug_cc requires list of emails. If only 1 email is provided, should
       it be converted in the python module or in server?
+
+IDEAS
+-----
+
+- Add an authentication filter at instantation time.
