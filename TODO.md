@@ -24,6 +24,11 @@ MANIFESTO
     - Search for more assertions
     - Review each one and make sure they are axiomatic
 
+4. Revise each function to match bugspad.go data options
+    - Update WEB API doc if outdated
+    - add_cc and remove_cc bugspad.go function is not finished, will need
+      revision
+    - new_bug has emails option to add cc users
 
 TO-ASK
 ------
