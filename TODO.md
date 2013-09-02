@@ -47,3 +47,9 @@ IDEAS
 -----
 
 - Add an authentication filter at instantation time.
+
+SERVER FUNCTIONS NEEDED
+-----------------------
+
+- Create user?
+- View Bug?
