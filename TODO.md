@@ -14,8 +14,8 @@ MANIFESTO
     - http://www.artima.com/weblogs/viewpost.jsp?thread=331531
 
 
-~~1. Write functions
-    - Start with basic API functionalities~~
+~~1. Write functions~~
+    - ~~Start with basic API functionalities~~
 
 2. Organize code for easier readability
     - Group functions by functionality
