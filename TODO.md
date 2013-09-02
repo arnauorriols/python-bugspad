@@ -15,7 +15,7 @@ MANIFESTO
 
 
 ~~1. Write functions~~
-   ~~- Start with basic API functionalities~~
+   ~~ - Start with basic API functionalities~~
 
 2. Organize code for easier readability
     - Group functions by functionality
