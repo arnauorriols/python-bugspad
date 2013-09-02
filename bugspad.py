@@ -1,4 +1,9 @@
-# Function temporal container waitting to be organized
+# Python-Bugspad
+# ==============
+#
+# Python front-end module for Bugspad system.
+#
+# ********************************************
 
 from json import dumps, loads
 from requests import post, get
@@ -6,16 +11,23 @@ from requests import post, get
 
 class Bug (object):
     """
-    Object that manages all bug manipulation. Requires authentication.
+    Object that manages all bug manipulation. Requires a registered user
+    and password as parameters; if the user is not registered, an
+    'authentication failure' error message is return on every function.
 
-    There are 2 forms in which this object can be instantiated. 
-        - Without either bug and component's ids.
-        (- With components id: Represents a component, thus being able to create
-        bug, for example.) --> deprecated?
-        - With bug id: Represents a bug, being able to update it, comment it...
+    There are 2 forms in which this object can be instantiated.
+        - Without bug_id: Can call only those generic functions which doesn't
+          require a concrete bug representation. Those which require bug_id
+          will raise a NameError exception when called without bug_id.
+
+        - With bug_id: Represents a bug, thus apart from the functions
+          available without bug_id, it allows those functions that manages
+          a concrete bug, being able to update it, comment it...
+
+    base_url refers to the base url of the server.
 
     """
-    
+
     # This works as **kwargs filter
     OPTIONAL_KWARGS = ('priority',
                        'severity',
