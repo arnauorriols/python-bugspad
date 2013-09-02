@@ -54,7 +54,7 @@ class Bug (object):
         """
         Decorator for those functions which fetch or modifies existing bugs,
         thus requiring a bug_id. If Bug class is instantiated without bug_id
-        the calling of these functions will raise an exception.
+        the calling of these functions will raise a NameError exception.
 
         """
 
@@ -66,24 +66,6 @@ class Bug (object):
 
         return inner
 
-
-
-    #def requires_component_id(funct):
-    #    """
-    #    Decorator for those functions which require a component id, mainly
-    #    those dealing with new bugs or new subcomponents.
-    #    If Bug class is instantiated without component_id
-    #    the calling of these functions will raise an exception.
-    #
-    #    """
-    #
-    #    def inner(self, *args, **kwargs):
-    #        if self.component_id:
-    #            return funct(self, *args, **kwargs)
-    #        else:
-    #            raise NameError ("Not callable without component_id")
-    #
-    #    return inner
 
 
     def optional_args_filter(funct):
@@ -121,10 +103,11 @@ class Bug (object):
     @requires_bug_id
     def add_comment (self, comment):
         """
-        Adds a new comment for the given bug in the class' constructor.
+        Adds a new comment to the bug, therefore requires an instance with
+        bug_id provided.
 
-        Returns server response, wether the new comment's id if succesful
-        or an error message.
+        Returns server response, either the new comment's id if succesful
+        or an error message. [WHICH?]
 
         """
 
@@ -133,7 +116,7 @@ class Bug (object):
         json_data = {'user' : self.user,
                      'password' : self.pwd,
                      'desc' : comment,
-                     'bug_id' : self.bug_id} 
+                     'bug_id' : self.bug_id}
 
         request = post(complete_url, dumps(json_data))
 
@@ -158,7 +141,7 @@ class Bug (object):
                 * subcomponent_id
                 * emails (list/tulpe?)
 
-        Returns a new instance with the new bug's id, thus representing it 
+        Returns a new instance with the new bug's id, thus representing it
         and being able to modify it.
 
         """
