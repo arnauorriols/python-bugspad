@@ -146,6 +146,8 @@ class Bug (object):
 
         """
 
+        # FIND OUT WHAT ABOUT 'EMAILS' KEYWORD
+
         complete_url = "%s/bug/" % self.url
 
         json_data = {'user' : self.user,
@@ -335,3 +337,61 @@ class Bug (object):
         request = post(complete_url, dumps(json_data))
 
         return request.json
+
+
+    
+    @requires_bug_id
+    def add_bug_cc(self, *emails): # REVISE FUNCTION NAME
+        """
+        Adds cc users to the bug represented by the class instance. It admits
+        either one email or many, as many parameters or in a single list/tuple.
+        Must be a registered user email, otherwise it won't be
+        added.
+
+        Returns empty string.
+
+        """
+
+        # ASK KUSHAL IF POSSIBLE TO ADD SOME FEEDBACK WHEN SUCCEED OR ERROR
+
+        complete_url = "%s/bug/cc" % self.url
+
+        if isinstance(emails[0], (list, tuple)): # unpack if list is passed
+            emails = emails[0]
+
+        json_data = {'user' : self.user,
+                     'password' : self.pwd,
+                     'bug_id' : self.bug_id,
+                     'action' : 'add',
+                     'emails' : emails}
+
+        request = post(complete_url, dumps(json_data))
+
+        return request.text
+
+
+
+    def remove_bug_cc(self, *emails):
+        """
+        Removes cc users from the bug represented by the class instance.
+        Emails can be either a single email, or many mails, as many parameters
+        or in a single list/tuple as the only parameter.
+
+        Returns empty string.
+
+        """
+
+        complete_url = "%s/bug/cc" % self.url
+
+        if isinstance(emails[0], (list, tuple)):
+            emails = emails[0]
+
+        json_data = {'user' : self.user,
+                     'password' : self.pwd,
+                     'bug_id' : self.bug_id,
+                     'action' : 'remove',
+                     'emails' : emails}
+
+        request = post(complete_url, dumps(json_data))
+
+        return request.text

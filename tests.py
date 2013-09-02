@@ -242,6 +242,62 @@ class BugTest (unittest.TestCase):
         self.assertEqual(response['description'], "This is going to blow " \
                                                   "your mind!")
 
+
+
+    def test_add_bug_cc_one_email_returns_empty_string(self):
+
+        response = self.with_id_bug.add_bug_cc('kushaldas@gmail.com')
+
+        self.assertEqual(response, '')
+
+
+
+    def test_add_bug_cc_many_parameters_return_empty_string(self):
+
+        response = self.with_id_bug.add_bug_cc('kushaldas@gmail.com', 
+                                               'arnauorriolsmiro@gmail.com')
+
+        self.assertEqual(response, '')
+
+
+
+    def test_add_bug_cc_emails_list_return_empty_string(self):
+
+        emails_list = ['kushaldas@gmail.com', 'arnauorriolsmiro@gmail.com']
+        
+        response = self.with_id_bug.add_bug_cc(emails_list)
+
+        self.assertEqual(response, '')
+
+
+
+    def test_remove_bug_cc_one_email_returns_empty_string(self):
+
+        response = self.with_id_bug.remove_bug_cc('kushaldas@gmail.com')
+
+        self.assertEqual(response, '')
+
+
+
+    def test_remove_bug_cc_many_parameters_return_empty_string(self):
+
+        response = self.with_id_bug.remove_bug_cc('kushaldas@gmail.com', 
+                                                  'arnauorriolsmiro@gmail.com')
+
+        self.assertEqual(response, '')
+
+
+
+    def test_remove_bug_cc_emails_list_return_empty_string(self):
+
+        emails_list = ['kushaldas@gmail.com', 'arnauorriolsmiro@gmail.com']
+        
+        response = self.with_id_bug.remove_bug_cc(emails_list)
+
+        self.assertEqual(response, '')
+
+
+
 if __name__ == "__main__":
     unittest.main(verbosity = 2)
 
