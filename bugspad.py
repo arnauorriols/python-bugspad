@@ -96,7 +96,8 @@ class Bug (object):
                 if arg not in self.OPTIONAL_KWARGS:
                     return "Wrong kwargs"
 
-                if arg == 'emails':
+                if arg == 'emails' \
+                and not isinstance(kwargs['emails'], (list, tuple)):
                     kwargs['emails'] = [kwargs['emails']] # REVISE
 
             return funct(self, *args, **kwargs)
