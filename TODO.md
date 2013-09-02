@@ -1,12 +1,11 @@
 Python client-side module.
 ==========================
-::
+
     Python module to work with Bugspad like Python-bugzilla does with bugzilla
 
 
 MANIFESTO
 ---------
-::
 
     - fast
     - light
@@ -15,13 +14,13 @@ MANIFESTO
     - http://www.artima.com/weblogs/viewpost.jsp?thread=331531
 
 
-1. Write functions
+[x] Write functions
     - Start with basic API functionalities
 
-2. Organize code for easier readability
+[ ] Organize code for easier readability
     - Group functions by functionality
 
-3. Deepen into the test cases
+[ ] Deepen into the test cases
     - Search for more assertions
     - Review each one and make sure they are axiomatic
 
