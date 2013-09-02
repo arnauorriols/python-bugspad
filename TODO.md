@@ -23,6 +23,7 @@ TASKS
 
 2. Organize code for easier readability
     - Group functions by functionality
+    - Comply strictly with PEP 8 style guidelines
 
 3. Deepen into the test cases
     - Search for more assertions
