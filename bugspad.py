@@ -25,7 +25,8 @@ class Bug (object):
                        'fixedinver',
                        'version',
                        'component_id',
-                       'subcomponent_id')
+                       'subcomponent_id',
+                       'emails')
 
 
 
@@ -86,14 +87,17 @@ class Bug (object):
             - fixedinver
             - component_id
             - subcomponent_id
+            - emails
 
         """
 
         def inner(self, *args, **kwargs):
             for arg in kwargs.keys():
                 if arg not in self.OPTIONAL_KWARGS:
-                    # del kwargs[arg]
                     return "Wrong kwargs"
+
+                if arg == 'emails':
+                    kwargs['emails'] = [kwargs['emails']] # REVISE
 
             return funct(self, *args, **kwargs)
 
@@ -138,11 +142,11 @@ class Bug (object):
                 * version
                 * hardware
                 * witheboard
-                * fixedinver
                 * subcomponent_id
+                * emails (list/tulpe?)
 
-        Returns server response, wether the new bug's id if succesful, or
-        an error message.
+        Returns a new instance with the new bug's id, thus representing it 
+        and being able to modify it.
 
         """
 
@@ -160,18 +164,10 @@ class Bug (object):
 
         request = post(complete_url, dumps(json_data))
 
-
-        """
-        **possibility:**
-
-            return Bug(self.url, 
-                       self.user, 
-                       self.pwd, 
-                       int(request.text))
-
-        """
-
-        return request.text # ??
+        return Bug(self.url,
+                   self.user,
+                   self.pwd,
+                   int(request.text))
 
 
 
@@ -370,7 +366,8 @@ class Bug (object):
         return request.text
 
 
-
+    
+    @requires_bug_id
     def remove_bug_cc(self, *emails):
         """
         Removes cc users from the bug represented by the class instance.

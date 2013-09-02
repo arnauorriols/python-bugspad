@@ -35,3 +35,5 @@ TO-ASK
 
 - Find out how does 'emails' keyword work in new_bug, and if it exist in others
 - Add cc needs some kind of feedback, at least success or error messages
+    - add_bug_cc requires list of emails. If only 1 email is provided, should
+      it be converted in the python module or in server?

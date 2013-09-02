@@ -96,22 +96,27 @@ class BugTest (unittest.TestCase):
 
 
 
-    def test_new_bug_returns_bug_id(self):
+    def test_new_bug_returns_bug_instance(self):
+
+        response = self.with_id_bug.new_bug("This is a summary",
+                                 "I had a bug...!",
+                                 hardware = "x86_64",
+                                 priority = "high",
+                                 severity = "high",
+                                 status = "new",
+                                 whiteboard = "Some text",
+                                 version = "20",
+                                 component_id = 55555,
+                                 emails = "kushaldas@gmail.com")
+
+        self.assertIsInstance(response, Bug)
 
         try:
-            int(self.with_id_bug.new_bug("This is a summary",
-                                         "I had a bug...!",
-                                         hardware = "x86_64",
-                                         priority = "high",
-                                         severity = "high",
-                                         whiteboard = "Some text",
-                                         fixedinver = "18",
-                                         version = "20",
-                                         component_id = 55555
-                                         ))
+            int(response.bug_id)
 
         except ValueError:
-            self.fail("Server Return is not valid comment id")
+            self.fail("Instance has not valid bug's id")
+
 
 
 
