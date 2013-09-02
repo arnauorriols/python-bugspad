@@ -14,15 +14,15 @@ MANIFESTO
     - http://www.artima.com/weblogs/viewpost.jsp?thread=331531
 
 
-- [x] Write functions
-        - Start with basic API functionalities
+~~1. Write functions~~
+   ~~- Start with basic API functionalities~~
 
-- [ ] Organize code for easier readability
-        - Group functions by functionality
+2. Organize code for easier readability
+    - Group functions by functionality
 
-- [ ] Deepen into the test cases
-        - Search for more assertions
-        - Review each one and make sure they are axiomatic
+3. Deepen into the test cases
+    - Search for more assertions
+    - Review each one and make sure they are axiomatic
 
 
 TO-ASK
