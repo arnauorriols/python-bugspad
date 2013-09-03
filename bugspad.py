@@ -71,7 +71,7 @@ class Bug (object):
     def optional_args_filter(funct):
         """
         Decorator that filters optional keyword arguments, accepting only
-        these keywords:
+        those data fields available in the Bugspad API:
             - severity
             - priority
             - status
@@ -83,6 +83,11 @@ class Bug (object):
             - subcomponent_id
             - emails
 
+        Applicable to those functions which accepts arbitrary keyword
+        arguments. If any of the keyword arguments added is not in
+        OPTIONAL_KWARGS list, those functions will return "Wrong kwargs"
+        string invariably.
+
         """
 
         def inner(self, *args, **kwargs):
@@ -90,9 +95,10 @@ class Bug (object):
                 if arg not in self.OPTIONAL_KWARGS:
                     return "Wrong kwargs"
 
+                # Server requires a list as 'emails' value
                 if arg == 'emails' \
                 and not isinstance(kwargs['emails'], (list, tuple)):
-                    kwargs['emails'] = [kwargs['emails']] # REVISE
+                    kwargs['emails'] = [kwargs['emails']]
 
             return funct(self, *args, **kwargs)
 
