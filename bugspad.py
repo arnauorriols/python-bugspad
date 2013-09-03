@@ -1,7 +1,7 @@
 # Python-Bugspad
 # ==============
 #
-# Python front-end module for Bugspad system.
+# Python front-end module using Bugspad API.
 #
 # ********************************************
 

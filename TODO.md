@@ -1,7 +1,7 @@
 Python client-side module.
 ==========================
 
-    Python module to work with Bugspad like Python-bugzilla does with bugzilla
+    Python module to work with Bugspad API like Python-bugzilla does with bugzilla
 
 
 MANIFESTO

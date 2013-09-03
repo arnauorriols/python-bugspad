@@ -27,7 +27,7 @@ class BugTest (unittest.TestCase):
         self.wrong_auth_bug = Bug(self.url,
                                   "wrongusr",
                                   self.pwd,
-                                  random.randint(22567, 22587))
+                                  22567)
 
 
 
@@ -81,7 +81,7 @@ class BugTest (unittest.TestCase):
                                                severity = "high",
                                                whiteboard = "Some text",
                                                fixedinver = "18",
-                                               version = "20",
+                                               version = "22",
                                                component_id = 55555)
 
         self.assertEqual(response, self.SUCCESS) # not really useful
@@ -284,7 +284,7 @@ class BugTest (unittest.TestCase):
 
 
 
-    def test_remove_bug_cc_many_parameters_return_empty_string(self):
+    def test_remove_bug_cc_many_parameters_returns_empty_string(self):
 
         response = self.with_id_bug.remove_bug_cc('kushaldas@gmail.com', 
                                                   'arnauorriolsmiro@gmail.com')
@@ -293,7 +293,7 @@ class BugTest (unittest.TestCase):
 
 
 
-    def test_remove_bug_cc_emails_list_return_empty_string(self):
+    def test_remove_bug_cc_emails_list_returns_empty_string(self):
 
         emails_list = ['kushaldas@gmail.com', 'arnauorriolsmiro@gmail.com']
         
