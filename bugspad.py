@@ -193,7 +193,7 @@ class Bug (object):
 
         json_data = {'user' : self.user,
                      'password' : self.pwd,
-                     'bug_id' : self.bug_id}
+                     'bug_id' : self.bug_id} 
 
         json_data.update(kwargs)
 
@@ -224,12 +224,12 @@ class Bug (object):
 
     def add_component(self, name, description, product_id):
         """
-        Adds new component to the given product_id product. Requires 
-        the name and description of the product. owner is thought to be the
-        bug's user self. 
+        Adds new component to the given product. Requires the product id to
+        which to add the component, and the name and description of this
+        new component.
 
-        Returns server response: if success, returns the new component's id, 
-        Error message 'No such product' otherwise. 
+        Returns server response: if success, returns the new component's id,
+        error message 'No such product' otherwise.
 
         """
 
