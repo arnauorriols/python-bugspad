@@ -147,6 +147,10 @@ class Bug (object):
                 * subcomponent_id
                 * emails (can be either a single mail or a list/tuple or mails)
 
+        These keyword arguments are filtered by the optional_args_filter
+        decorator, meaning that if one of the keywords is wrong, the whole
+        function will not be called and error message is returned instead.
+
         Returns a new instance of bug class with the new bug's id provided,
         thus representing it and being able to modify it.
 
@@ -175,10 +179,13 @@ class Bug (object):
     @requires_bug_id
     def update_bug(self, **kwargs):
         """
-        Updates the bug given in the Bug constructor using 
-        the given heyword arguments.
+        Updates the bug represented by the instance, adding or updating those
+        data fields passed as keyword arguments. As with new_bug, these can be
+        any of those keywords accepted by optional_args_filter decorator, or
+        else it won't be called and an error message will be returned instead.
 
-        Returns the server response, wether empty string if succesful or message.
+        Returns the server response, wether 'Success' string if succesful or
+        convenient error message otherwise.
 
         """
 
