@@ -81,7 +81,7 @@ class Bug (object):
             - fixedinver
             - component_id
             - subcomponent_id
-            - emails
+            - emails (Can be either a single email or a list/tuple of mails)
 
         Applicable to those functions which accepts arbitrary keyword
         arguments. If any of the keyword arguments added is not in
@@ -133,26 +133,24 @@ class Bug (object):
     @optional_args_filter
     def new_bug (self, summary, description, component_id, **kwargs):
         """
-        Files a new bug for the component given in the class constructor.
-
-        params: 
-            - Summary, description and component_id are needed
-            - kwargs are optional, and include:
+        Adds a new bug for the component given in component_id.
+        Summary and description are the minimum required data for a new bug to
+        be filed. The other optional data fields can be added as keyword
+        arguments, which include:
                 * priority
                 * severity
                 * status
                 * version
                 * hardware
                 * witheboard
+                * fixedinver
                 * subcomponent_id
-                * emails (list/tulpe?)
+                * emails (can be either a single mail or a list/tuple or mails)
 
-        Returns a new instance with the new bug's id, thus representing it
-        and being able to modify it.
+        Returns a new instance of bug class with the new bug's id provided,
+        thus representing it and being able to modify it.
 
         """
-
-        # FIND OUT WHAT ABOUT 'EMAILS' KEYWORD
 
         complete_url = "%s/bug/" % self.url
 
