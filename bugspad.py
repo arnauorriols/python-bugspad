@@ -193,23 +193,24 @@ class Bug (object):
 
         json_data = {'user' : self.user,
                      'password' : self.pwd,
-                     'bug_id' : self.bug_id} 
+                     'bug_id' : self.bug_id}
 
         json_data.update(kwargs)
 
         request = post(complete_url, dumps(json_data))
 
-        return request.text # ??
+        return request.text
 
 
 
     def get_components_list(self, product_id):
         """
-        Fetches a components list from a product's id.
+        Fetches the components list of a product. Requires this product's id.
 
-        Returns the components of the given product in a dict, where keys are
-        component's name and values are a list containing id, name and
-        description of each key.
+        Returns a dictionary containing the components of the given product,
+        where keys are the component's name and their values are themself a
+        list containing the id, name and description of the corresponding
+        component.
 
         """
 
