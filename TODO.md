@@ -22,7 +22,7 @@ TASKS
 ~~1. Improve/correct commentation~~
 
 2. Organize code for easier readability
-    - Group functions by functionality
+   ~~ - Group functions by functionality~~
     - Comply strictly with PEP 8 and PEP 257 style guidelines
 
 3. Deepen into the test cases
