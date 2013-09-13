@@ -143,7 +143,7 @@ class BugTest (unittest.TestCase):
 
 
     def test_add_component_returns_component_info_dict(self):
-        
+
         response = self.with_id_bug.add_component('new_component', 
                                                   'This is an awesome new ' \
                                                   'useless component',
@@ -269,7 +269,7 @@ class BugTest (unittest.TestCase):
     def test_add_bug_cc_emails_list_return_empty_string(self):
 
         emails_list = ['kushaldas@gmail.com', 'arnauorriolsmiro@gmail.com']
-        
+
         response = self.with_id_bug.add_bug_cc(emails_list)
 
         self.assertEqual(response, '')
@@ -296,7 +296,7 @@ class BugTest (unittest.TestCase):
     def test_remove_bug_cc_emails_list_returns_empty_string(self):
 
         emails_list = ['kushaldas@gmail.com', 'arnauorriolsmiro@gmail.com']
-        
+
         response = self.with_id_bug.remove_bug_cc(emails_list)
 
         self.assertEqual(response, '')

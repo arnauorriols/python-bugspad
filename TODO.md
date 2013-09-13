@@ -19,7 +19,7 @@ TASKS
 ~~1. Write functions~~
     - ~~Start with basic API functionalities~~
 
-1. Improve/correct commentation
+~~1. Improve/correct commentation~~
 
 2. Organize code for easier readability
     - Group functions by functionality
@@ -34,6 +34,10 @@ TASKS
     - add_cc and remove_cc bugspad.go function is not finished, will need
       revision
     - new_bug has emails option to add cc users
+
+5. Add new available functions
+
+*Pending:* Comment out tests.py
 
 TO-ASK
 ------
