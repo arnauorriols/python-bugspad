@@ -106,30 +106,6 @@ class Bug (object):
 
 
 
-    @requires_bug_id
-    def add_comment (self, comment):
-        """
-        Adds a new comment to the bug, therefore requires an instance with
-        bug_id provided.
-
-        Returns server response, either the new comment's id if succesful
-        or an error message. [WHICH?]
-
-        """
-
-        complete_url = "%s/comment/" % self.url
-
-        json_data = {'user' : self.user,
-                     'password' : self.pwd,
-                     'desc' : comment,
-                     'bug_id' : self.bug_id}
-
-        request = post(complete_url, dumps(json_data))
-
-        return request.text # ??
-
-
-
     @optional_args_filter
     def new_bug (self, summary, description, component_id, **kwargs):
         """
@@ -203,22 +179,85 @@ class Bug (object):
 
 
 
-    def get_components_list(self, product_id):
+    @requires_bug_id
+    def add_comment (self, comment):
         """
-        Fetches the components list of a product. Requires this product's id.
+        Adds a new comment to the bug, therefore requires an instance with
+        bug_id provided.
 
-        Returns a dictionary containing the components of the given product,
-        where keys are the component's name and their values are themself a
-        list containing the id, name and description of the corresponding
-        component.
+        Returns server response, either the new comment's id if succesful
+        or an error message. [WHICH?]
 
         """
 
-        complete_url = "%s/components/%s/" % (self.url, product_id)
-        request = get(complete_url) 
+        complete_url = "%s/comment/" % self.url
 
-        json_response = request.json
-        return request.json
+        json_data = {'user' : self.user,
+                     'password' : self.pwd,
+                     'desc' : comment,
+                     'bug_id' : self.bug_id}
+
+        request = post(complete_url, dumps(json_data))
+
+        return request.text # ??
+
+
+
+    @requires_bug_id
+    def add_bug_cc(self, *emails): # REVISE FUNCTION NAME
+        """
+        Adds cc users to the bug represented by the class instance. It admits
+        either one email or many, as many parameters or in a single list/tuple.
+        Must be an already registered user email, otherwise it won't be added.
+
+        Returns empty string.
+
+        """
+
+        # ASK KUSHAL IF POSSIBLE TO ADD SOME FEEDBACK WHEN SUCCEED OR ERROR
+
+        complete_url = "%s/bug/cc" % self.url
+
+        if isinstance(emails[0], (list, tuple)): # unpack if list is passed
+            emails = emails[0]
+
+        json_data = {'user' : self.user,
+                     'password' : self.pwd,
+                     'bug_id' : self.bug_id,
+                     'action' : 'add',
+                     'emails' : emails}
+
+        request = post(complete_url, dumps(json_data))
+
+        return request.text
+
+
+
+    @requires_bug_id
+    def remove_bug_cc(self, *emails):
+        """
+        Removes cc users from the bug represented by the class instance.
+        Emails can be either a single email, or many mails, as many parameters
+        or in a single list/tuple as the only parameter.
+
+        Returns empty string.
+
+        """
+
+        complete_url = "%s/bug/cc" % self.url
+
+        if isinstance(emails[0], (list, tuple)):
+            emails = emails[0]
+
+        json_data = {'user' : self.user,
+                     'password' : self.pwd,
+                     'bug_id' : self.bug_id,
+                     'action' : 'remove',
+                     'emails' : emails}
+
+        request = post(complete_url, dumps(json_data))
+
+        return request.text
 
 
 
@@ -247,13 +286,53 @@ class Bug (object):
 
 
 
+    def add_release(self, release_name):
+        """
+        Adds release to database, of which the name is provided in
+        release_name parameter. Returns SUCCESS msg.
+
+        """
+
+        complete_url = "%s/releases/" % self.url
+        json_data = {'user' : self.user,
+                     'password' : self.pwd,
+                     'name' : release_name}
+
+        request = post(complete_url, dumps(json_data))
+
+        return request.text
+
+
+
+    def add_product(self, product_name, product_description):
+        """
+        Adds a new product to the database. Requires its name and description
+        as parameters.
+
+        Returns a dictionary containing id, name and description of the new
+        added product.
+
+        """
+
+        complete_url = "%s/product/" % self.url
+        json_data = {'user' : self.user,
+                     'password' : self.pwd,
+                     'name' : product_name,
+                     'description' : product_description}
+
+        request = post(complete_url, dumps(json_data))
+
+        return request.json
+
+
+
     def get_latest_created_bugs(self):
         """
         Fetches the 10 latest created bugs' ids. 
 
         Returns a list with these 10 bugs' information, which is delivered
         in a dictionary containing bug's id, status and summary, as this:
-        
+
             [{id : 'id0', status : 'status0', summary : 'summary0'}, ...
              {id : 'idX', status : 'statusX', summary : 'summaryX'}]
 
@@ -296,21 +375,22 @@ class Bug (object):
 
 
 
-    def add_release(self, release_name):
+    def get_components_list(self, product_id):
         """
-        Adds release to database, of which the name is provided in
-        release_name parameter. Returns SUCCESS msg.
-        
+        Fetches the components list of a product. Requires this product's id.
+
+        Returns a dictionary containing the components of the given product,
+        where keys are the component's name and their values are themself a
+        list containing the id, name and description of the corresponding
+        component.
+
         """
 
-        complete_url = "%s/releases/" % self.url
-        json_data = {'user' : self.user,
-                     'password' : self.pwd,
-                     'name' : release_name}
+        complete_url = "%s/components/%s/" % (self.url, product_id)
+        request = get(complete_url) 
 
-        request = post(complete_url, dumps(json_data))
-
-        return request.text
+        json_response = request.json
+        return request.json
 
 
 
@@ -325,83 +405,3 @@ class Bug (object):
         request = get(complete_url)
 
         return request.json
-
-
-
-    def add_product(self, product_name, product_description):
-        """
-        Adds a new product to the database. Requires its name and description
-        as parameters.
-
-        Returns a dictionary containing id, name and description of the new
-        added product.
-
-        """
-
-        complete_url = "%s/product/" % self.url
-        json_data = {'user' : self.user,
-                     'password' : self.pwd,
-                     'name' : product_name,
-                     'description' : product_description}
-
-        request = post(complete_url, dumps(json_data))
-
-        return request.json
-
-
-    
-    @requires_bug_id
-    def add_bug_cc(self, *emails): # REVISE FUNCTION NAME
-        """
-        Adds cc users to the bug represented by the class instance. It admits
-        either one email or many, as many parameters or in a single list/tuple.
-        Must be an already registered user email, otherwise it won't be added.
-
-        Returns empty string.
-
-        """
-
-        # ASK KUSHAL IF POSSIBLE TO ADD SOME FEEDBACK WHEN SUCCEED OR ERROR
-
-        complete_url = "%s/bug/cc" % self.url
-
-        if isinstance(emails[0], (list, tuple)): # unpack if list is passed
-            emails = emails[0]
-
-        json_data = {'user' : self.user,
-                     'password' : self.pwd,
-                     'bug_id' : self.bug_id,
-                     'action' : 'add',
-                     'emails' : emails}
-
-        request = post(complete_url, dumps(json_data))
-
-        return request.text
-
-
-    
-    @requires_bug_id
-    def remove_bug_cc(self, *emails):
-        """
-        Removes cc users from the bug represented by the class instance.
-        Emails can be either a single email, or many mails, as many parameters
-        or in a single list/tuple as the only parameter.
-
-        Returns empty string.
-
-        """
-
-        complete_url = "%s/bug/cc" % self.url
-
-        if isinstance(emails[0], (list, tuple)):
-            emails = emails[0]
-
-        json_data = {'user' : self.user,
-                     'password' : self.pwd,
-                     'bug_id' : self.bug_id,
-                     'action' : 'remove',
-                     'emails' : emails}
-
-        request = post(complete_url, dumps(json_data))
-
-        return request.text
