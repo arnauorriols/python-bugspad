@@ -316,7 +316,7 @@ class Bug (object):
 
     def get_releases(self):
         """
-        Fetches the releases list, and returns a list with all releases name
+        Fetches the releases list, returns a list with all releases name
         as strings.
 
         """
@@ -330,7 +330,8 @@ class Bug (object):
 
     def add_product(self, product_name, product_description):
         """
-        Adds new product to database, specifying name and description of it.
+        Adds a new product to the database. Requires its name and description
+        as parameters.
 
         Returns a dictionary containing id, name and description of the new
         added product.
@@ -354,8 +355,7 @@ class Bug (object):
         """
         Adds cc users to the bug represented by the class instance. It admits
         either one email or many, as many parameters or in a single list/tuple.
-        Must be a registered user email, otherwise it won't be
-        added.
+        Must be an already registered user email, otherwise it won't be added.
 
         Returns empty string.
 
