@@ -96,8 +96,8 @@ class Bug (object):
                     return "Wrong kwargs"
 
                 # Server requires a list as 'emails' value
-                if arg == 'emails' \
-                and not isinstance(kwargs['emails'], (list, tuple)):
+                if (arg == 'emails' and not
+                        isinstance(kwargs['emails'], (list, tuple))):
                     kwargs['emails'] = [kwargs['emails']]
 
             return funct(self, *args, **kwargs)
