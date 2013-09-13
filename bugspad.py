@@ -16,13 +16,14 @@ class Bug (object):
     'authentication failure' error message is return on every function.
 
     There are 2 forms in which this object can be instantiated.
-        - Without bug_id: Can call only those generic functions which doesn't
-          require a concrete bug representation. Those which require bug_id
-          will raise a NameError exception when called without bug_id.
+        - Without bug_id: Can call only those generic functions which
+          doesn't require a concrete bug representation. Those which
+          require bug_id will raise a NameError exception when called
+          without bug_id.
 
         - With bug_id: Represents a bug, thus apart from the functions
-          available without bug_id, it allows those functions that manages
-          a concrete bug, being able to update it, comment it...
+          available without bug_id, it allows those functions that
+          manages a concrete bug, being able to update it, comment it...
 
     base_url refers to the base url of the server.
 
@@ -52,15 +53,17 @@ class Bug (object):
 
     def requires_bug_id(funct):
         """
-        Decorator for those functions which fetch or modifies existing bugs,
-        thus requiring a bug_id. If Bug class is instantiated without bug_id
-        the calling of these functions will raise a NameError exception.
+        Decorator for those functions which fetch or modifies existing
+        bugs, thus requiring a bug_id. If Bug class is instantiated
+        without bug_id the calling of these functions will raise a
+        NameError exception.
 
         """
 
         def inner(self, *args, **kwargs):
             if self.bug_id:
                 return funct(self, *args, **kwargs)
+
             else:
                 raise NameError ("Not callable without bug_id")
 
@@ -70,8 +73,8 @@ class Bug (object):
 
     def optional_args_filter(funct):
         """
-        Decorator that filters optional keyword arguments, accepting only
-        those data fields available in the Bugspad API:
+        Decorator that filters optional keyword arguments, accepting
+        only those data fields available in the Bugspad API:
             - severity
             - priority
             - status
@@ -81,7 +84,8 @@ class Bug (object):
             - fixedinver
             - component_id
             - subcomponent_id
-            - emails (Can be either a single email or a list/tuple of mails)
+            - emails (Can be either a single email or a list/tuple of
+                      mails)
 
         Applicable to those functions which accepts arbitrary keyword
         arguments. If any of the keyword arguments added is not in
@@ -110,9 +114,9 @@ class Bug (object):
     def new_bug (self, summary, description, component_id, **kwargs):
         """
         Adds a new bug for the component given in component_id.
-        Summary and description are the minimum required data for a new bug to
-        be filed. The other optional data fields can be added as keyword
-        arguments, which include:
+        Summary and description are the minimum required data for a new
+        bug to be filed. The other optional data fields can be added as
+        keyword arguments, which include:
                 * priority
                 * severity
                 * status
@@ -121,14 +125,16 @@ class Bug (object):
                 * witheboard
                 * fixedinver
                 * subcomponent_id
-                * emails (can be either a single mail or a list/tuple or mails)
+                * emails (can be either a single mail or a list/tuple or
+                          mails)
 
         These keyword arguments are filtered by the optional_args_filter
-        decorator, meaning that if one of the keywords is wrong, the whole
-        function will not be called and error message is returned instead.
+        decorator, meaning that if one of the keywords is wrong, the
+        whole function will not be called and error message is returned
+        instead.
 
-        Returns a new instance of bug class with the new bug's id provided,
-        thus representing it and being able to modify it.
+        Returns a new instance of bug class with the new bug's id
+        provided, thus representing it and being able to modify it.
 
         """
 
@@ -155,13 +161,14 @@ class Bug (object):
     @requires_bug_id
     def update_bug(self, **kwargs):
         """
-        Updates the bug represented by the instance, adding or updating those
-        data fields passed as keyword arguments. As with new_bug, these can be
-        any of those keywords accepted by optional_args_filter decorator, or
-        else it won't be called and an error message will be returned instead.
+        Updates the bug represented by the instance, adding or updating
+        those data fields passed as keyword arguments. As with new_bug,
+        these can be any of those keywords accepted by
+        optional_args_filter decorator, or else it won't be called and
+        an error message will be returned instead.
 
-        Returns the server response, wether 'Success' string if succesful or
-        convenient error message otherwise.
+        Returns the server response, wether 'Success' string if
+        succesful or convenient error message otherwise.
 
         """
 
@@ -169,7 +176,7 @@ class Bug (object):
 
         json_data = {'user' : self.user,
                      'password' : self.pwd,
-                     'bug_id' : self.bug_id} 
+                     'bug_id' : self.bug_id}
 
         json_data.update(kwargs)
 
@@ -182,11 +189,11 @@ class Bug (object):
     @requires_bug_id
     def add_comment (self, comment):
         """
-        Adds a new comment to the bug, therefore requires an instance with
-        bug_id provided.
+        Adds a new comment to the bug, therefore requires an instance
+        with bug_id provided.
 
-        Returns server response, either the new comment's id if succesful
-        or an error message. [WHICH?]
+        Returns server response, either the new comment's id if
+        succesful or an error message. [WHICH?]
 
         """
 
@@ -206,9 +213,10 @@ class Bug (object):
     @requires_bug_id
     def add_bug_cc(self, *emails): # REVISE FUNCTION NAME
         """
-        Adds cc users to the bug represented by the class instance. It admits
-        either one email or many, as many parameters or in a single list/tuple.
-        Must be an already registered user email, otherwise it won't be added.
+        Adds cc users to the bug represented by the class instance. It
+        admits either one email or many, as many parameters or in a
+        single list/tuple. Must be an already registered user email,
+        otherwise it won't be added.
 
         Returns empty string.
 
@@ -237,8 +245,8 @@ class Bug (object):
     def remove_bug_cc(self, *emails):
         """
         Removes cc users from the bug represented by the class instance.
-        Emails can be either a single email, or many mails, as many parameters
-        or in a single list/tuple as the only parameter.
+        Emails can be either a single email, or many mails, as many
+        parameters or in a single list/tuple as the only parameter.
 
         Returns empty string.
 
@@ -263,12 +271,12 @@ class Bug (object):
 
     def add_component(self, name, description, product_id):
         """
-        Adds new component to the given product. Requires the product id to
-        which to add the component, and the name and description of this
-        new component.
+        Adds new component to the given product. Requires the product id
+        to which to add the component, and the name and description of
+        this new component.
 
-        Returns server response: if success, returns the new component's id,
-        error message 'No such product' otherwise.
+        Returns server response: if success, returns the new component's
+        id, error message 'No such product' otherwise.
 
         """
 
@@ -306,11 +314,11 @@ class Bug (object):
 
     def add_product(self, product_name, product_description):
         """
-        Adds a new product to the database. Requires its name and description
-        as parameters.
+        Adds a new product to the database. Requires its name and
+        description as parameters.
 
-        Returns a dictionary containing id, name and description of the new
-        added product.
+        Returns a dictionary containing id, name and description of the
+        new added product.
 
         """
 
@@ -330,8 +338,9 @@ class Bug (object):
         """
         Fetches the 10 latest created bugs' ids. 
 
-        Returns a list with these 10 bugs' information, which is delivered
-        in a dictionary containing bug's id, status and summary, as this:
+        Returns a list with these 10 bugs' information, which is
+        delivered in a dictionary containing bug's id, status and
+        summary, as this:
 
             [{id : 'id0', status : 'status0', summary : 'summary0'}, ...
              {id : 'idX', status : 'statusX', summary : 'summaryX'}]
@@ -343,7 +352,8 @@ class Bug (object):
 
         # Server's response is not well formed json data, needs to be
         # recursively parsed.
-        # FIXME: Server's returns a list of string, not a list of json objects
+        # FIXME: Server's returns a list of string, not a list of json
+        # objects.
         parsed_request = []
         for bug_string in request.json:
             parsed_request.append(loads(bug_string))
@@ -356,8 +366,9 @@ class Bug (object):
         """
         Fetches the 10 latest updated bugs' id.
 
-        Returns a list with these 10 bugs' information, which is delivered
-        in a dictionary containing bug's id, status and summary, as this:
+        Returns a list with these 10 bugs' information, which is
+        delivered in a dictionary containing bug's id, status and
+        summary, as this:
 
             [{id : 'id0', status : 'status0', summary : 'summary0'}, ...
              {id : 'idX', status : 'statusX', summary : 'summaryX'}]
@@ -377,12 +388,13 @@ class Bug (object):
 
     def get_components_list(self, product_id):
         """
-        Fetches the components list of a product. Requires this product's id.
+        Fetches the components list of a product. Requires this
+        product's id.
 
-        Returns a dictionary containing the components of the given product,
-        where keys are the component's name and their values are themself a
-        list containing the id, name and description of the corresponding
-        component.
+        Returns a dictionary containing the components of the given
+        product, where keys are the component's name and their values
+        are themself a list containing the id, name and description of
+        the corresponding component.
 
         """
 
