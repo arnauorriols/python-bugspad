@@ -37,7 +37,7 @@ TASKS
 
 5. Add new available functions
 
-*Pending:* Comment out tests.py
+**Pending:** Comment out tests.py
 
 TO-ASK
 ------
