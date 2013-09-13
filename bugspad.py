@@ -249,11 +249,13 @@ class Bug (object):
 
     def get_latest_created_bugs(self):
         """
-        Fetches the 10 latest created bugs' id. 
+        Fetches the 10 latest created bugs' ids. 
 
-        Returns a list containing these 10 bugs, as a dictionary containing
-        bug's id, status and summary. This info can be used to create other 
-        Bug instances with proper bug id.
+        Returns a list with these 10 bugs' information, which is delivered
+        in a dictionary containing bug's id, status and summary, as this:
+        
+            [{id : 'id0', status : 'status0', summary : 'summary0'}, ...
+             {id : 'idX', status : 'statusX', summary : 'summaryX'}]
 
         """
 
@@ -275,8 +277,11 @@ class Bug (object):
         """
         Fetches the 10 latest updated bugs' id.
 
-        Returns a list containing these 10 bugs, as a dictionary containing
-        bug's id, status and summary.
+        Returns a list with these 10 bugs' information, which is delivered
+        in a dictionary containing bug's id, status and summary, as this:
+
+            [{id : 'id0', status : 'status0', summary : 'summary0'}, ...
+             {id : 'idX', status : 'statusX', summary : 'summaryX'}]
 
         """
 
