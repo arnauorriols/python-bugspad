@@ -37,8 +37,6 @@ TASKS
 
 5. Add new available functions
 
-**Pending:** Comment out tests.py
-
 **Pending:** Apply PEP 257 consistency modifications
 
 TO-ASK
