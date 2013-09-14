@@ -41,14 +41,11 @@ class Bug (object):
                        'subcomponent_id',
                        'emails')
 
-
-
     def __init__(self, base_url, user, pwd, bug_id = None):
         self.bug_id = bug_id
         self.url = base_url
         self.user = user
         self.pwd = pwd
-
 
 
     def requires_bug_id(funct):
@@ -63,13 +60,9 @@ class Bug (object):
         def inner(self, *args, **kwargs):
             if self.bug_id:
                 return funct(self, *args, **kwargs)
-
             else:
                 raise NameError ("Not callable without bug_id")
-
         return inner
-
-
 
     def optional_args_filter(funct):
         """
@@ -103,11 +96,8 @@ class Bug (object):
                 if (arg == 'emails' and not
                         isinstance(kwargs['emails'], (list, tuple))):
                     kwargs['emails'] = [kwargs['emails']]
-
             return funct(self, *args, **kwargs)
-
         return inner
-
 
 
     @optional_args_filter
@@ -139,23 +129,18 @@ class Bug (object):
         """
 
         complete_url = "%s/bug/" % self.url
-
         json_data = {'user' : self.user,
                      'password' : self.pwd,
                      'component_id' : component_id,
                      'summary' : summary,
                      'description' : description}
-
         json_data.update(kwargs) # Adds optional args if any
-
         request = post(complete_url, dumps(json_data))
 
         return Bug(self.url,
                    self.user,
                    self.pwd,
                    int(request.text))
-
-
 
     @optional_args_filter
     @requires_bug_id
@@ -173,18 +158,13 @@ class Bug (object):
         """
 
         complete_url = "%s/updatebug/" % self.url
-
         json_data = {'user' : self.user,
                      'password' : self.pwd,
                      'bug_id' : self.bug_id}
-
         json_data.update(kwargs)
-
         request = post(complete_url, dumps(json_data))
 
         return request.text
-
-
 
     @requires_bug_id
     def add_comment (self, comment):
@@ -198,17 +178,13 @@ class Bug (object):
         """
 
         complete_url = "%s/comment/" % self.url
-
         json_data = {'user' : self.user,
                      'password' : self.pwd,
                      'desc' : comment,
                      'bug_id' : self.bug_id}
-
         request = post(complete_url, dumps(json_data))
 
         return request.text # ??
-
-
 
     @requires_bug_id
     def add_bug_cc(self, *emails): # REVISE FUNCTION NAME
@@ -234,12 +210,9 @@ class Bug (object):
                      'bug_id' : self.bug_id,
                      'action' : 'add',
                      'emails' : emails}
-
         request = post(complete_url, dumps(json_data))
 
         return request.text
-
-
 
     @requires_bug_id
     def remove_bug_cc(self, *emails):
@@ -262,12 +235,9 @@ class Bug (object):
                      'bug_id' : self.bug_id,
                      'action' : 'remove',
                      'emails' : emails}
-
         request = post(complete_url, dumps(json_data))
 
         return request.text
-
-
 
     def add_component(self, name, description, product_id):
         """
@@ -287,12 +257,9 @@ class Bug (object):
                      'name' : name,
                      'description' : description,
                      'product_id' : product_id}
-
         request = post(complete_url, dumps(json_data))
 
         return request.json
-
-
 
     def add_release(self, release_name):
         """
@@ -305,12 +272,9 @@ class Bug (object):
         json_data = {'user' : self.user,
                      'password' : self.pwd,
                      'name' : release_name}
-
         request = post(complete_url, dumps(json_data))
 
         return request.text
-
-
 
     def add_product(self, product_name, product_description):
         """
@@ -327,11 +291,9 @@ class Bug (object):
                      'password' : self.pwd,
                      'name' : product_name,
                      'description' : product_description}
-
         request = post(complete_url, dumps(json_data))
 
         return request.json
-
 
 
     def get_latest_created_bugs(self):
@@ -360,8 +322,6 @@ class Bug (object):
 
         return parsed_request
 
-
-
     def get_latest_updated_bugs(self):
         """
         Fetches the 10 latest updated bugs' id.
@@ -377,14 +337,11 @@ class Bug (object):
 
         complete_url = "%s/latestupdated/" % self.url
         request = get(complete_url)
-
         parsed_request = []
         for bug_string in request.json:
             parsed_request.append(loads(bug_string))
 
         return parsed_request
-
-
 
     def get_components_list(self, product_id):
         """
@@ -399,12 +356,10 @@ class Bug (object):
         """
 
         complete_url = "%s/components/%s/" % (self.url, product_id)
-        request = get(complete_url) 
-
+        request = get(complete_url)
         json_response = request.json
+
         return request.json
-
-
 
     def get_releases(self):
         """
