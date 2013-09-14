@@ -131,12 +131,10 @@ class BugTest(unittest.TestCase):
 
 
     def test_get_latest_created_bugs_returns_latest_bugs_list(self):
-
-        # NEEDS REVISION. THESE ASSERTIONS AREN'T NECESSARILY TRUE
         response = self.with_id_bug.get_latest_created_bugs()
 
         self.assertIs(type(response), list)
-        self.assertEqual(len(response), 10)
+        self.assertIn(len(response), range(1, 11))  # 10 at max, but not least
         for bug in response:
             self.assertEqual(len(bug.keys()), 3)
             self.assertTrue('id' in bug)
@@ -149,12 +147,10 @@ class BugTest(unittest.TestCase):
 
 
     def test_get_latest_updated_bugs_returns_latest_bugs_list(self):
-
-        # NEEDS REVISION, THESE ASSERTIONS AREN'T NECESSARILY TRUE
         response = self.with_id_bug.get_latest_updated_bugs()
 
         self.assertIs(type(response), list)
-        self.assertEqual(len(response), 10)
+        self.assertIn(len(response), range(1, 11))
         for bug in response:
             self.assertEqual(len(bug.keys()), 3)
             self.assertTrue('id' in bug)
