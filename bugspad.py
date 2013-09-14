@@ -10,6 +10,7 @@ from requests import post, get
 
 
 class Bug(object):
+
     """
     Object that manages all bug manipulation. Requires a registered user
     and password as parameters; if the user is not registered, an
@@ -26,6 +27,20 @@ class Bug(object):
           manages a concrete bug, being able to update it, comment it...
 
     base_url refers to the base url of the server.
+
+    Callable methods:
+        * new_bug
+        * update_bug
+        * add_comment
+        * add_bug_cc
+        * remove_bug_cc
+        * add_component
+        * add_release
+        * add_product
+        * get_latest_created_bugs
+        * get_latest_updated_bugs
+        * get_components_list
+        * get_releases
 
     """
 
