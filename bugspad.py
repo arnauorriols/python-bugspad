@@ -9,7 +9,7 @@ from json import dumps, loads
 from requests import post, get
 
 
-class Bug (object):
+class Bug(object):
     """
     Object that manages all bug manipulation. Requires a registered user
     and password as parameters; if the user is not registered, an
@@ -41,7 +41,7 @@ class Bug (object):
                        'subcomponent_id',
                        'emails')
 
-    def __init__(self, base_url, user, pwd, bug_id = None):
+    def __init__(self, base_url, user, pwd, bug_id=None):
         self.bug_id = bug_id
         self.url = base_url
         self.user = user
@@ -61,7 +61,7 @@ class Bug (object):
             if self.bug_id:
                 return funct(self, *args, **kwargs)
             else:
-                raise NameError ("Not callable without bug_id")
+                raise NameError("Not callable without bug_id")
         return inner
 
     def optional_args_filter(funct):
@@ -101,7 +101,7 @@ class Bug (object):
 
 
     @optional_args_filter
-    def new_bug (self, summary, description, component_id, **kwargs):
+    def new_bug(self, summary, description, component_id, **kwargs):
         """
         Adds a new bug for the component given in component_id.
         Summary and description are the minimum required data for a new
@@ -167,7 +167,7 @@ class Bug (object):
         return request.text
 
     @requires_bug_id
-    def add_comment (self, comment):
+    def add_comment(self, comment):
         """
         Adds a new comment to the bug, therefore requires an instance
         with bug_id provided.
