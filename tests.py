@@ -98,6 +98,12 @@ class BugTest(unittest.TestCase):
                                             wrong_kwarg="dummy")
         self.assertEqual(response, self.WRONG_KWARGS)
 
+    def test_new_bug_wrong_auth_returns_AUTH_ERROR(self):
+        response = self.wrong_auth_bug.new_bug("This is a summary",
+                                               "I had a bug...!",
+                                               47062)
+        self.assertEqual(response, self.AUTH_ERROR)
+
 
     @unittest.skip("Too slow, comment this line to test this function")
     def test_get_components_list_returns_components_dict(self):

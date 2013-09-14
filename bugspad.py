@@ -152,10 +152,13 @@ class Bug(object):
         json_data.update(kwargs) # Adds optional args if any
         request = post(complete_url, dumps(json_data))
 
-        return Bug(self.url,
-                   self.user,
-                   self.pwd,
-                   int(request.text))
+        try: 
+            return Bug(self.url,
+                       self.user,
+                       self.pwd,
+                       int(request.text))
+        except ValueError:
+            return request.text
 
     @optional_args_filter
     @requires_bug_id
