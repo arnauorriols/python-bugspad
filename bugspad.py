@@ -58,7 +58,7 @@ class Bug(object):
         """
 
         def inner(self, *args, **kwargs):
-            if self.bug_id:
+            if self.bug_id is not None:
                 return funct(self, *args, **kwargs)
             else:
                 raise NameError("Not callable without bug_id")
