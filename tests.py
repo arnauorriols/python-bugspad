@@ -1,6 +1,6 @@
 import unittest
 from bugspad import Bug
-import random
+from random import randint
 
 
 class BugTest(unittest.TestCase):
@@ -17,18 +17,18 @@ class BugTest(unittest.TestCase):
         self.WRONG_PRODUCT = "No such product."
 
         self.url = "http://127.0.0.1:9998"
-        self.usr = "arnauorriolsmiro@gmail.com"
+        self.usr = "kushaldas@gmail.com"
         self.pwd = "asdf"
 
         self.no_id_bug = Bug(self.url, self.usr, self.pwd)
         self.with_id_bug = Bug(self.url,
                                self.usr,
                                self.pwd,
-                               22567)
+                               1)
         self.wrong_auth_bug = Bug(self.url,
                                   "wrongusr",
                                   self.pwd,
-                                  22567)
+                                  1)
 
 
     def test_add_comment_without_id_raises_Exception(self):
@@ -82,7 +82,7 @@ class BugTest(unittest.TestCase):
                                  status="new",
                                  whiteboard="Some text",
                                  version="20",
-                                 component_id=55555,
+                                 component_id=randint(1, 16000),
                                  emails="kushaldas@gmail.com")
 
         self.assertIsInstance(response, Bug)
@@ -94,20 +94,20 @@ class BugTest(unittest.TestCase):
     def test_new_bug_wrong_kwargs_returns_WRONG_KWARGS(self):
         response = self.with_id_bug.new_bug("This is a summary",
                                             "I had a bug...!",
-                                            47062,
+                                            1,
                                             wrong_kwarg="dummy")
         self.assertEqual(response, self.WRONG_KWARGS)
 
     def test_new_bug_wrong_auth_returns_AUTH_ERROR(self):
         response = self.wrong_auth_bug.new_bug("This is a summary",
                                                "I had a bug...!",
-                                               47062)
+                                               1)
         self.assertEqual(response, self.AUTH_ERROR)
 
 
     @unittest.skip("Too slow, comment this line to test this function")
     def test_get_components_list_returns_components_dict(self):
-        response = self.with_id_bug.get_components_list(2)
+        response = self.with_id_bug.get_components_list(1)
 
         self.assertIs(type(response), dict)
         self.assertNotEqual(len(response), 0)
@@ -116,7 +116,7 @@ class BugTest(unittest.TestCase):
 
     @unittest.skip("Too slow, comment this line to test this function")
     def test_get_components_list_auth_not_required(self):
-        response = self.wrong_auth_bug.get_components_list(2)
+        response = self.wrong_auth_bug.get_components_list(1)
 
         self.assertIs(type(response), dict)
         self.assertNotEqual(len(response), 0)
@@ -128,7 +128,7 @@ class BugTest(unittest.TestCase):
         response = self.with_id_bug.add_component('new_component',
                                                   'This is an awesome new '
                                                   'useless component',
-                                                  2)
+                                                  1)
         try:
             int(response["id"])
         except ValueError:
@@ -141,7 +141,7 @@ class BugTest(unittest.TestCase):
         response = self.with_id_bug.add_component('new_component', 
                                                   'This is an awesome new '
                                                   'useless component',
-                                                  1)
+                                                  0)
         self.assertEqual(response['id'], self.WRONG_PRODUCT)
 
 
