@@ -178,7 +178,7 @@ class BugTest(unittest.TestCase):
 
         self.assertNotEqual(response, self.AUTH_ERROR)
         self.assertIs(type(response), list)
-        self.assertIn(len(response), range(1, 11))  # 10 at max, but not least
+        self.assertIn(len(response), range(1, 11))
         for bug in response:
             self.assertEqual(len(bug.keys()), 3)
             self.assertTrue('id' in bug)
@@ -206,16 +206,13 @@ class BugTest(unittest.TestCase):
 
         self.assertNotEqual(response, self.AUTH_ERROR)
         self.assertIs(type(response), list)
-        self.assertIn(len(response), range(1, 11))  # 10 at max, but not least
+        self.assertIn(len(response), range(1, 11))
         for bug in response:
             self.assertEqual(len(bug.keys()), 3)
             self.assertTrue('id' in bug)
             self.assertTrue('status' in bug)
             self.assertTrue('summary' in bug)
 
-            # Range inversed (start, stop(not included), step)
-            self.assertEqual([bug['id'] for bug in response],
-                         range(response[0]['id'], (response[-1]['id']-1), -1))
 
     def test_add_release_returns_SUCCESS(self):
         response = self.with_id_bug.add_release('BP-2')
