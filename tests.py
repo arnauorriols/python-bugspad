@@ -74,7 +74,7 @@ class BugTest(unittest.TestCase):
 
 
     def test_new_bug_returns_bug_instance(self):
-        response = self.with_id_bug.new_bug("This is a summary",
+        response = self.no_id_bug.new_bug("This is a summary",
                                  "I had a bug...!",
                                  hardware="x86_64",
                                  priority="high",
@@ -92,7 +92,7 @@ class BugTest(unittest.TestCase):
             self.fail("Instance has not valid bug's id")
 
     def test_new_bug_wrong_kwargs_returns_WRONG_KWARGS(self):
-        response = self.with_id_bug.new_bug("This is a summary",
+        response = self.no_id_bug.new_bug("This is a summary",
                                             "I had a bug...!",
                                             1,
                                             wrong_kwarg="dummy")
@@ -107,7 +107,7 @@ class BugTest(unittest.TestCase):
 
     @unittest.skip("Too slow, comment this line to test this function")
     def test_get_components_list_returns_components_dict(self):
-        response = self.with_id_bug.get_components_list(1)
+        response = self.no_id_bug.get_components_list(1)
 
         self.assertIs(type(response), dict)
         self.assertNotEqual(len(response), 0)
@@ -122,6 +122,12 @@ class BugTest(unittest.TestCase):
         self.assertNotEqual(len(response), 0)
         for component in response.iteritems():
             self.assertEqual(component[0], component[1][1])
+
+    def test_get_components_list_wrong_product_id_returns_empty_dict(self):
+        response = self.no_id_bug.get_components_list(0)
+
+        self.assertIs(type(response), dict)
+        self.assertEqual(len(response), 0)
 
 
     def test_add_component_returns_component_info_dict(self):
