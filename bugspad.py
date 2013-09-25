@@ -264,7 +264,14 @@ class Bug(object):
         this new component.
 
         Returns server response: if success, returns the new component's
-        id, error message 'No such product' otherwise.
+        data in a dictionary, as this:
+
+            {'id' : 'new_id',
+             'name' : 'name_of_new_component',
+             'description' : 'description_of_new_component'}
+
+        If the product doesn't exist, an error message 'No such product'
+        is returned.
 
         """
 
@@ -277,7 +284,10 @@ class Bug(object):
                      'product_id' : product_id}
         request = post(complete_url, dumps(json_data))
 
-        return request.json
+        if request.content[0] is '{':  # Extra step for error message
+            return request.json        # quotation consistency.
+        else:
+            return request.text
 
     def add_release(self, release_name):
         """

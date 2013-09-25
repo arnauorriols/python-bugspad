@@ -131,7 +131,7 @@ class BugTest(unittest.TestCase):
 
 
     def test_add_component_returns_component_info_dict(self):
-        response = self.with_id_bug.add_component('new_component',
+        response = self.no_id_bug.add_component('new_component',
                                                   'This is an awesome new '
                                                   'useless component',
                                                   1)
@@ -144,12 +144,18 @@ class BugTest(unittest.TestCase):
                          response['description'])
 
     def test_add_component_wrong_product_id_returns_WRONG_PRODUCT(self):
-        response = self.with_id_bug.add_component('new_component', 
-                                                  'This is an awesome new '
-                                                  'useless component',
-                                                  0)
+        response = self.no_id_bug.add_component('new_component',
+                                                'This is an awesome new '
+                                                'useless component',
+                                                0)
         self.assertEqual(response['id'], self.WRONG_PRODUCT)
 
+    def test_add_component_wrong_auth_returns_AUTH_ERROR(self):
+        response = self.wrong_auth_bug.add_component('new_component',
+                                                     'This is an awesome new '
+                                                     'useless component',
+                                                     0)
+        self.assertEqual(response, self.AUTH_ERROR)
 
     def test_get_latest_created_bugs_returns_latest_bugs_list(self):
         response = self.with_id_bug.get_latest_created_bugs()
