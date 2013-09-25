@@ -57,3 +57,4 @@ SERVER FUNCTIONS NEEDED
 
 - Create user?
 - View Bug?
+- get components to return error message when wrong product id
