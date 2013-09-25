@@ -157,9 +157,26 @@ class BugTest(unittest.TestCase):
                                                      0)
         self.assertEqual(response, self.AUTH_ERROR)
 
-    def test_get_latest_created_bugs_returns_latest_bugs_list(self):
-        response = self.with_id_bug.get_latest_created_bugs()
 
+    def test_get_latest_created_bugs_returns_latest_bugs_list(self):
+        response = self.no_id_bug.get_latest_created_bugs()
+
+        self.assertIs(type(response), list)
+        self.assertIn(len(response), range(1, 11))  # 10 at max, but not least
+        for bug in response:
+            self.assertEqual(len(bug.keys()), 3)
+            self.assertTrue('id' in bug)
+            self.assertTrue('status' in bug)
+            self.assertTrue('summary' in bug)
+
+            # Range inversed (start, stop(not included), step)
+            self.assertEqual([bug['id'] for bug in response],
+                         range(response[0]['id'], (response[-1]['id']-1), -1))
+
+    def test_get_latest_created_bugs_auth_not_required(self):
+        response = self.wrong_auth_bug.get_latest_created_bugs()
+
+        self.assertNotEqual(response, self.AUTH_ERROR)
         self.assertIs(type(response), list)
         self.assertIn(len(response), range(1, 11))  # 10 at max, but not least
         for bug in response:
