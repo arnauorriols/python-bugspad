@@ -24,7 +24,7 @@ class BugTest(unittest.TestCase):
         self.with_id_bug = Bug(self.url,
                                self.usr,
                                self.pwd,
-                               1)
+                               randint(1, 10))
         self.wrong_auth_bug = Bug(self.url,
                                   "wrongusr",
                                   self.pwd,
