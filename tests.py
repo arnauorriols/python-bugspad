@@ -215,8 +215,13 @@ class BugTest(unittest.TestCase):
 
 
     def test_add_release_returns_SUCCESS(self):
-        response = self.with_id_bug.add_release('BP-2')
+        response = self.no_id_bug.add_release('BP-2')
         self.assertEqual(response, self.SUCCESS)
+
+    @unittest.expectedFailure
+    def test_add_release_wrong_auth_returns_AUTH_ERROR(self):
+        response = self.wrong_auth_bug.add_release('BP-2')
+        self.assertEqual(response, self.AUTH_ERROR)
 
 
     def test_get_releases_returns_releases_list(self):

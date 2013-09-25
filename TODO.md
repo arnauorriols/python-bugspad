@@ -58,3 +58,4 @@ SERVER FUNCTIONS NEEDED
 - Create user?
 - View Bug?
 - get components to return error message when wrong product id
+- add_release doesn't return AUTH_ERROR when authentication failure
